@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"name": "Web_Dev",
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../Downloads/keeper-app"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Web_Dev"
+	}
+}
