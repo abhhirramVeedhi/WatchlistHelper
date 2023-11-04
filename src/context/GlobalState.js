@@ -1,66 +1,66 @@
-import React , {createContext , useReducer , useEffect} from "react";
+import React, { createContext, useReducer, useEffect } from "react";
 import AppReducer from "./AppReducer";
 
-//initial state
-const initialState={
-    watchlist:localStorage.getItem('watchlist') ? JSON.parse(localStorage.getItem('watchlist')) : [],
-    watched:localStorage.getItem('watched') ? JSON.parse(localStorage.getItem('watched')) : [],
+// initial state
+const initialState = {
+  watchlist: localStorage.getItem("watchlist")
+    ? JSON.parse(localStorage.getItem("watchlist"))
+    : [],
+  watched: localStorage.getItem("watched")
+    ? JSON.parse(localStorage.getItem("watched"))
+    : [],
 };
 
-//create context
-//GlobalContext will allow components to access the state and dispatch actions.
+// create context
 export const GlobalContext = createContext(initialState);
 
-//provider componnents
-export const GlobalProvider = props=>{
-    const [state,dispatch]= useReducer(AppReducer , initialState);
+// provider components
+export const GlobalProvider = (props) => {
+  const [state, dispatch] = useReducer(AppReducer, initialState);
 
-    useEffect(()=>{
-        localStorage.setItem('watchlist' , JSON.stringify(state.watchlist));
-        localStorage.setItem('watched' , JSON.stringify(state.watched));
-    },[state]); 
+  useEffect(() => {
+    localStorage.setItem("watchlist", JSON.stringify(state.watchlist));
+    localStorage.setItem("watched", JSON.stringify(state.watched));
+  }, [state]);
 
-    //actions
-    //handeled by AppReducer
-    const addMovieToWatchlist = movie =>{
-        dispatch({type: "ADD_MOVIE_TO_WATCHLIST" , payload: movie});
-    };
+  // actions
+  const addMovieToWatchlist = (movie) => {
+    dispatch({ type: "ADD_MOVIE_TO_WATCHLIST", payload: movie });
+  };
 
-    const removeMovieFromWatchList = (id)=>{
-        dispatch({type:"REMOVE_MOVIE_FROM_WATCHLIST" , payload: id});
-    };
+  const removeMovieFromWatchlist = (id) => {
+    dispatch({ type: "REMOVE_MOVIE_FROM_WATCHLIST", payload: id });
+  };
 
-    const addMovieToWatched = (movie)=>{
-        dispatch({type: "ADD_MOVIE_TO_WATCHED" , payload: movie });
-    };
+  const addMovieToWatched = (movie) => {
+    dispatch({ type: "ADD_MOVIE_TO_WATCHED", payload: movie });
+  };
 
-    //movie to watchlist 
+  const moveToWatchlist = (movie) => {
+    dispatch({ type: "MOVE_TO_WATCHLIST", payload: movie });
+  };
 
-    const moveToWatchList = (movie)=>{
-        dispatch({type:"MOVE_TO_WATCH_LIST" , payload: movie});
-    };
+  const removeFromWatched = (id) => {
+    dispatch({ type: "REMOVE_FROM_WATCHED", payload: id });
+  };
 
-    //remove from watched
-
-    const removeFromWatched = (id)=>{
-        dispatch({type:"REMOVE_FROM_WATCHED" , payload: id});
-    };
-
-    return(
-        <GlobalContext.Provider value={{
-            watchlist: state.watchlist , 
-            watched: state.watched , 
-            addMovieToWatchlist,
-            removeMovieFromWatchList,
-            addMovieToWatched,
-            moveToWatchList,
-            removeFromWatched,
-            }}
-            >
-            {props.children}
-        </GlobalContext.Provider>
-    );
+  return (
+    <GlobalContext.Provider
+      value={{
+        watchlist: state.watchlist,
+        watched: state.watched,
+        addMovieToWatchlist,
+        removeMovieFromWatchlist,
+        addMovieToWatched,
+        moveToWatchlist,
+        removeFromWatched,
+      }}
+    >
+      {props.children}
+    </GlobalContext.Provider>
+  );
 };
+
 
 
 
